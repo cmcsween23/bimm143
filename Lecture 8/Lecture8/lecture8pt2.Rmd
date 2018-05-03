@@ -1,0 +1,89 @@
+---
+title: "lecture8pt2"
+author: "Colin McSweeney"
+date: "April 26, 2018"
+output: 
+  html_document: 
+    keep_md: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+x <- rbind(
+ matrix(rnorm(100, mean=0, sd = 0.3), ncol = 2), # c1
+ matrix(rnorm(100, mean = 1, sd = 0.3), ncol = 2), # c2
+ matrix(c(rnorm(50, mean = 1, sd = 0.3), # c3
+ rnorm(50, mean = 0, sd = 0.3)), ncol = 2))
+colnames(x) <- c("x", "y")
+```{r}
+x <- rbind(
+ matrix(rnorm(100, mean=0, sd = 0.3), ncol = 2), # c1
+ matrix(rnorm(100, mean = 1, sd = 0.3), ncol = 2), # c2
+ matrix(c(rnorm(50, mean = 1, sd = 0.3), # c3
+ rnorm(50, mean = 0, sd = 0.3)), ncol = 2))
+colnames(x) <- c("x", "y")
+```
+```{r}
+plot(x)
+```
+
+plot(x)
+```{r}
+col <- as.factor( rep(c("c1","c2","c3"), each=50) ) 
+```
+
+
+```{r}
+plot(x, col=col)
+```
+
+#dist function
+```{r}
+dist(x)
+```
+
+```{r}
+d <- dist(x)
+hc <- hclust(d)
+plot(hc)
+```
+
+
+
+
+#making up data
+```{r}
+mydata <- matrix(nrow = 100, ncol = 10)
+dim(mydata)
+```
+
+```{r}
+rownames(mydata) <- paste("gene", 1:100, sep="") 
+colnames(mydata) <- c( paste("wt", 1:5, sep=""),
+ paste("ko", 1:5, sep="") ) 
+for(i in 1:nrow(mydata)) {
+ wt.values <- rpois(5, lambda=sample(x=10:1000, size=1))
+ ko.values <- rpois(5, lambda=sample(x=10:1000, size=1))
+
+ mydata[i,] <- c(wt.values, ko.values)
+}
+head(mydata)
+```
+
+#now for PCA
+```{r}
+pca <- prcomp(t(mydata), scale=TRUE) 
+```
+## See what is returned by the prcomp() function
+```{r}
+attributes(pca)
+```
+
+ 
+```{r}
+## A basic PC1 vs PC2 2-D plot
+plot(pca$x[,1], pca$x[,2]) 
+```
+

@@ -1,0 +1,73 @@
+---
+title: "Lecture 8"
+author: "Colin McSweeney"
+date: "April 26, 2018"
+output: 
+  html_document: 
+    keep_md: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# K-means clustering
+
+Let's make up somedata and try k-means
+
+# Generate some example data for clustering
+tmp <- c(rnorm(30,-3), rnorm(30,3))
+x <- cbind(x=tmp, y=rev(tmp))
+plot(x)
+
+
+Our taasks
+  use the k-means setting k to 3 and nstart=20
+  
+```{r}
+km <- kmeans(x, centers = 2, nstart = 20)
+km
+```
+
+#points in each cluster
+```{r}
+km$num.points
+```
+
+
+
+#cluster size
+```{r}
+km$size
+```
+
+#cluster assignment membership
+```{r}
+km$assignment
+```
+
+#cluster center
+```{r}
+km$center
+```
+
+
+# Plot x colored by the kmeans cluster assignment and
+# add cluster centers as blue points
+```{r}
+plot(x, col = km$cluster)
+points(km$centers, col = "blue", pch = 15)
+```
+
+
+Repeat for k=3
+```{r}
+km3 <- kmeans(x, centers = 3, nstart = 20)
+km3
+```
+
+```{r}
+km3$tot.withinss
+```
+
+

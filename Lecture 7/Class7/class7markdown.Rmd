@@ -1,0 +1,171 @@
+---
+title: "Bioinformatics Class 7"
+author: "Colin McSweeney"
+date: "April 24, 2018"
+output: 
+  html_document: 
+    keep_md: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Functions Again
+Here I am going to revisit our function from class 6
+
+```{r}
+source("http://tinyurl.com/rescale-R")
+```
+
+
+lets see if we can use this function
+
+```{r}
+rescale(1:10)
+```
+
+looks good let's break it!
+
+```{r}
+#rescale(c(1:10, "string"))
+```
+
+lets try the **rescale2()** function
+
+```{r}
+#rescale(c(1:10, "string"))
+```
+
+##Write an NA checking function
+
+Here we write a new function to check for NAs in two inputs 
+
+```{r}
+x <- c( 1, 2, NA, 3, NA)
+y <- c(NA, 3, NA, 3, 4)
+```
+
+
+```{r}
+sum(is.na(x))
+```
+
+Let's put this together with x and y
+
+```{r}
+is.na(x)
+is.na(y)
+```
+
+
+```{r}
+sum(is.na(x) & is.na(y))
+```
+
+
+This is the both_na starting point
+
+```{r}
+both_na <- function(x, y) {
+  ## Check for 
+ sum( is.na(x) & is.na(y) )
+}
+```
+
+
+
+Test
+
+```{r}
+both_na(x,y)
+```
+
+and again
+
+```{r}
+x <- c(NA, NA, NA)
+y1 <- c( 1, NA, NA)
+y2 <- c( 1, NA, NA, NA)
+
+both_na(x,y2)
+
+```
+
+```{r}
+both_na2 <- function(x, y) {
+ if(length(x) != length(y)) {
+ stop("Input x and y should be the same length")
+ }
+ sum( is.na(x) & is.na(y) )
+}
+```
+
+
+```{r}
+both_na2(x,y2)
+```
+
+
+
+try both_na3() fuunction
+
+```{r}
+x <- c( 1, 2, NA, 3, NA)
+y <- c(NA, 3, NA, 3, 4)
+
+ans <- both_na3(x,y)
+```
+
+```{r}
+ans
+```
+
+##another function example: gene intersection
+
+```{r}
+df1
+df2
+
+x <-df1$IDs
+y <- df2$IDs
+```
+
+```{r}
+x
+y
+```
+
+```{r}
+#intersect(x,y)
+
+x%in% y
+```
+
+```{r}
+#intersection(y,x)
+
+y %in% x
+```
+
+Now we can access the genes we want with these 'indices'
+```{r}
+x[x %in% y]
+y[y %in% x]
+```
+
+can make these columns of the same object by using cbind()
+
+```{r}
+cbind(x[x %in% y], y[y %in% x])
+```
+
+```{r}
+gene_intersect2(df1, df2)
+```
+Lets try the merge () function for this job
+
+```{r}
+merge(df1, df2, by= "IDs")
+```
+
